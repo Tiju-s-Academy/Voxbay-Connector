@@ -2,13 +2,14 @@ from odoo import http
 from odoo.http import request
 import logging
 import json
+_logger = logging.getLogger("Voxbay Debug: ")
 class VoxbayApi(http.Controller):
     # Event 1: Incoming call landed on server
     @http.route(
         '/voxbay/api/incoming_landed',
         type='json', auth='none', methods=["POST"], csrf=False)
     def authenticate(self, *args, **post):
-        print(post.items())
+        _logger.info(post)
 
         # Prepare the response data
         response_data = {
