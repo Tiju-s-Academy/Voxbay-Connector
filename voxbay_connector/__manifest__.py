@@ -5,7 +5,8 @@
     'sequence': "0",
     'depends': ['base','crm','odoo-rest-api'],
     'data': [
-
+        'security/ir.model.access.csv',
+        'views/call_data.xml',
     ],
     'demo': [],
     'summary': "Voxbay Connector",

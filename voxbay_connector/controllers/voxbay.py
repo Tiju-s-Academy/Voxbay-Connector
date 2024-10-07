@@ -15,6 +15,20 @@ class VoxbayApi(http.Controller):
     def incoming_landed(self, *args, **post):
         _logger.info(post)
 
+        try:
+            called_number = post['calledNumber']
+            caller_number = post['callerNumber']
+            call_uuid = post['CallUUID']
+
+            request.env['voxbay.call.data.record'].sudo().create({
+                'called_number': called_number,
+                'caller_number': caller_number,
+                'call_uuid': call_uuid,
+                'event_status': 'agent_received_call',
+            })
+        except Exception as e:
+            print("Exception Occured")
+            print(e)
         # Prepare the response data
         response_data = {
             'status': 'success',

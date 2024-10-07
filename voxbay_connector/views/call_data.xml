@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--  Voxbay Incoming CDR -->
+    <record id="voxbay_incoming_cdr_action" model="ir.actions.act_window">
+        <field name="name">Voxbay Call Records</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">voxbay.call.data.record</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="voxbay_incoming_cdr_tree_view" model="ir.ui.view">
+        <field name="name">voxbay.call.data.record.tree</field>
+        <field name="model">voxbay.call.data.record</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="call_uuid"/>
+                <field name="call_type"/>
+                <field name="event_status"/>
+                <field name="called_number"/>
+                <field name="caller_number"/>
+                <field name="agent_number"/>
+                <field name="total_call_duration"/>
+                <field name="call_date"/>
+                <field name="call_status"/>
+                <field name="recording_url"/>
+                <field name="call_start_time"/>
+                <field name="call_end_time"/>
+                <field name="conversation_duration"/>
+                <field name="dtmf"/>
+                <field name="transferred_number"/>
+            </tree>
+        </field>
+    </record>
+    <!-- REPORTING -->
+    <menuitem
+        id="voxbay_incoming_cdr_menu"
+        name="Voxbay Calls"
+        parent="crm.crm_menu_report"
+        sequence="20"
+        action="voxbay_incoming_cdr_action"
+        />
+</odoo>
