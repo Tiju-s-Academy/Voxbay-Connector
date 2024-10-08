@@ -26,7 +26,6 @@
                 <field name="recording_url"/>
                 <field name="call_start_time"/>
                 <field name="call_end_time"/>
-                <field name="conversation_duration"/>
                 <field name="dtmf"/>
                 <field name="transferred_number"/>
             </tree>
