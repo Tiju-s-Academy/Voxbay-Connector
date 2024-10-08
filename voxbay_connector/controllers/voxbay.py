@@ -14,6 +14,7 @@ class VoxbayApi(http.Controller):
         type='json', auth='none', methods=["POST"], csrf=False)
     def incoming_landed(self, *args, **post):
         _logger.info(post)
+        _logger.info('args',args)
 
         try:
             called_number = post['calledNumber']
@@ -44,6 +45,8 @@ class VoxbayApi(http.Controller):
         type='json', auth='none', methods=["POST"], csrf=False)
     def incoming_answered(self, *args, **post):
         _logger.info(post)
+        _logger.info('args',args)
+
 
         # Prepare the response data
         response_data = {
@@ -60,6 +63,7 @@ class VoxbayApi(http.Controller):
         type='json', auth='none', methods=["POST"], csrf=False)
     def incoming_disconnected(self, *args, **post):
         _logger.info(post)
+        _logger.info('args',args)
 
         # Prepare the response data
         response_data = {
@@ -76,6 +80,7 @@ class VoxbayApi(http.Controller):
         type='json', auth='none', methods=["POST"], csrf=False)
     def incoming_cdr_push(self, *args, **post):
         _logger.info(post)
+        _logger.info('args',args)
 
         # Prepare the response data
         response_data = {
@@ -96,6 +101,7 @@ class VoxbayApi(http.Controller):
         type='json', auth='none', methods=["POST"], csrf=False)
     def outgoing_initiated(self, *args, **post):
         _logger.info(post)
+        _logger.info('args',args)
 
         # Prepare the response data
         response_data = {
@@ -112,6 +118,7 @@ class VoxbayApi(http.Controller):
         type='json', auth='none', methods=["POST"], csrf=False)
     def outgoing_cdr_push(self, *args, **post):
         _logger.info(post)
+        _logger.info('args',args)
 
         # Prepare the response data
         response_data = {
