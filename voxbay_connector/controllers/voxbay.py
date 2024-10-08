@@ -13,8 +13,7 @@ class VoxbayApi(http.Controller):
         '/voxbay/api/incoming_landed',
         type='json', auth='none', methods=["POST"], csrf=False)
     def incoming_landed(self, *args, **post):
-        _logger.info(post)
-        _logger.info(f'args , {args}')
+        _logger.info(f'{request.httprequest.json}')
 
         try:
             called_number = post['calledNumber']
@@ -44,9 +43,7 @@ class VoxbayApi(http.Controller):
         '/voxbay/api/incoming_answered',
         type='json', auth='none', methods=["POST"], csrf=False)
     def incoming_answered(self, *args, **post):
-        _logger.info(post)
-        _logger.info(f'args , {args}')
-
+        _logger.info(f'{request.httprequest.json}')
 
         # Prepare the response data
         response_data = {
@@ -62,8 +59,7 @@ class VoxbayApi(http.Controller):
         '/voxbay/api/incoming_disconnected',
         type='json', auth='none', methods=["POST"], csrf=False)
     def incoming_disconnected(self, *args, **post):
-        _logger.info(post)
-        _logger.info(f'args , {args}')
+        _logger.info(f'{request.httprequest.json}')
 
         # Prepare the response data
         response_data = {
@@ -79,8 +75,7 @@ class VoxbayApi(http.Controller):
         '/voxbay/api/incoming_cdr_push',
         type='json', auth='none', methods=["POST"], csrf=False)
     def incoming_cdr_push(self, *args, **post):
-        _logger.info(post)
-        _logger.info(f'args , {args}')
+        _logger.info(f'{request.httprequest.json}')
 
         # Prepare the response data
         response_data = {
@@ -100,8 +95,7 @@ class VoxbayApi(http.Controller):
         '/voxbay/api/outgoing_initiated',
         type='json', auth='none', methods=["POST"], csrf=False)
     def outgoing_initiated(self, *args, **post):
-        _logger.info(post)
-        _logger.info(f'args , {args}')
+        _logger.info(f'{request.httprequest.json}')
 
         # Prepare the response data
         response_data = {
@@ -116,10 +110,8 @@ class VoxbayApi(http.Controller):
     @http.route(
         '/voxbay/api/outgoing_cdr_push',
         type='json', auth='none', methods=["POST"], csrf=False)
-    def outgoing_cdr_push(self, *args, **post):
-        _logger.info(post)
-        _logger.info(f'args , {args}')
-
+    def outgoing_cdr_push(self, **post):
+        _logger.info(f'{request.httprequest.json}')
         # Prepare the response data
         response_data = {
             'status': 'success',
