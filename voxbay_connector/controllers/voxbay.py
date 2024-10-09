@@ -129,9 +129,9 @@ class VoxbayApi(http.Controller):
         try:
             post_data: dict = request.httprequest.json
             request.env['voxbay.call.data.record'].sudo().create({
-                'extension_number': post_data['extension'],
-                'destination_number': post_data['destination'],
-                'caller_id': post_data['callerid'],
+                'caller_number': post_data['callerNumber'],
+                'called_number': post_data['calledNumber'],
+                'caller_id': post_data['callerId'],
                 'call_uuid': post_data['CallUUlD'],
                 'event_status': 'agent_initiated_call',
                 'call_type': 'outgoing',
@@ -156,14 +156,18 @@ class VoxbayApi(http.Controller):
             call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',post_data['CallUUID'])])
             if call_record:
                 call_record.update({
-                'extension_number': post_data['extension'],
-                'destination_number': post_data['destination'],
+                'caller_number': post_data['callerNumber'],
+                'called_number': post_data['calledNumber'],
+                'agent_number': post_data['agentNumber'],
                 'caller_id': post_data['callerid'],
                 'call_uuid': post_data['CallUUID'],
-                'total_call_duration': post_data['duration'],
-                'call_status': post_data['status'],
-                'event_status': 'agent_initiated_call',
-                'call_date': post_data['date'],
+                'call_start_time': post_data['callStartTime'],
+                'call_end_time': post_data['callEndTime'],
+                'total_call_duration': post_data['totalCallDuration'],
+                'conversation_duration': post_data['conversationDuration'],
+                'dtmf': post_data['dtmf'],
+                'call_status': post_data['callStatus'],
+                'call_date': post_data['callDate'],
                 'recording_url': post_data['recording_URL'],
                 'event_status': 'call_ended',
 
