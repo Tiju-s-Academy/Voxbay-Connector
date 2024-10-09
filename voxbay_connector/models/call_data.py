@@ -7,7 +7,7 @@ class VoxbayCallData(models.Model):
     event_status = fields.Selection(string="Event Status", selection=[('agent_received_call', 'Agent Received Call'), ('agent_answered_call', 'Agent Accepted Call'), ('agent_initiated_call', 'Agent Initiated Call'), ('call_ended', 'Call Ended')])
     total_call_duration = fields.Char(string="Call Duration", readonly=True)
     call_date = fields.Datetime(string="Call Date")
-    call_status = fields.Selection(string="Call Status", selection=[('ANSWERED', 'ANSWERED'), ('BUSY', 'BUSY'), ('NOANSWER', 'NOANSWER'), ('CONGESTION', 'CONGESTION'), ('CHANUNAVAIL', 'CHANUNAVAIL'), ('CANCEL', 'CANCEL')])
+    call_status = fields.Selection(string="Call Status", selection=[('Connected', 'Connected'), ('Not Connected', 'Not Connected'), ('Cancel', 'Cancel'), ('NOANSWER', 'No Answer'), ('BUSY', 'BUSY'), ('CONGESTION', 'Congestion'), ('CHANUNAVAIL', 'Channel Unavailable'), ('FAILED', 'Failed')])
 
     # Incoming
     called_number = fields.Char(string="Customer Called Number")
