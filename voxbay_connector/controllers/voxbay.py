@@ -131,7 +131,7 @@ class VoxbayApi(http.Controller):
             request.env['voxbay.call.data.record'].sudo().create({
                 'caller_number': post_data['callerNumber'],
                 'called_number': post_data['calledNumber'],
-                'caller_id': post_data['callerId'],
+                # 'caller_id': post_data['callerId'],
                 'call_uuid': post_data['CallUUlD'],
                 'event_status': 'agent_initiated_call',
                 'call_type': 'outgoing',
@@ -159,7 +159,7 @@ class VoxbayApi(http.Controller):
                 'caller_number': post_data['callerNumber'],
                 'called_number': post_data['calledNumber'],
                 'agent_number': post_data['AgentNumber'],
-                'caller_id': post_data['callerid'],
+                # 'caller_id': post_data['callerid'],
                 'call_uuid': post_data['CallUUID'],
                 'call_start_time': post_data['callStartTime'],
                 'call_end_time': post_data['callEndTime'],
