@@ -40,7 +40,7 @@ class VoxbayApi(http.Controller):
     def incoming_answered(self, *args, **post):
         try:
             post_data: dict = request.httprequest.json
-            call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',int(post_data['CallUUID']))])
+            call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',post_data['CallUUID'])])
             if call_record:
                 call_record.update({
                     'agent_number': post_data['AgentNumber'],
@@ -64,7 +64,7 @@ class VoxbayApi(http.Controller):
     def incoming_disconnected(self, *args, **post):
         try:
             post_data: dict = request.httprequest.json
-            call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',int(post_data['CallUUID']))])        
+            call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',post_data['CallUUID'])])        
             if call_record:
                 call_record.update({
                     'agent_number': post_data['AgentNumber'],
@@ -88,7 +88,7 @@ class VoxbayApi(http.Controller):
     def incoming_cdr_push(self, *args, **post):
         try:
             post_data: dict = request.httprequest.json
-            call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',int(post_data['CallUUID']))])
+            call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',post_data['CallUUID'])])
             if call_record:
                 call_record.update({
                     'caller_number': post_data['callerNumber'],              # Customer number
@@ -153,7 +153,7 @@ class VoxbayApi(http.Controller):
     def outgoing_cdr_push(self, **post):
         try:
             post_data: dict = request.httprequest.json
-            call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',int(post_data['CallUUID']))])
+            call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',post_data['CallUUID'])])
             if call_record:
                 call_record.update({
                 'extension_number': post_data['extension'],
