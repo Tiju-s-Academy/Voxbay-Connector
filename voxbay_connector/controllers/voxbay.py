@@ -158,7 +158,7 @@ class VoxbayApi(http.Controller):
                 call_record.update({
                 'caller_number': post_data['callerNumber'],
                 'called_number': post_data['calledNumber'],
-                'agent_number': post_data['agentNumber'],
+                'agent_number': post_data['AgentNumber'],
                 'caller_id': post_data['callerid'],
                 'call_uuid': post_data['CallUUID'],
                 'call_start_time': post_data['callStartTime'],
