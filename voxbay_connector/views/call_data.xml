@@ -3,7 +3,7 @@
 
     <!--  Voxbay Incoming CDR -->
     <record id="voxbay_incoming_cdr_action" model="ir.actions.act_window">
-        <field name="name">Voxbay Incoming Call Records</field>
+        <field name="name">Voxbay Incoming Calls</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">voxbay.call.data.record</field>
         <field name="view_mode">tree,form</field>
@@ -15,7 +15,7 @@
 
     <!--  Voxbay Incoming CDR -->
     <record id="voxbay_outgoing_cdr_action" model="ir.actions.act_window">
-        <field name="name">Voxbay Outgoing Call Records</field>
+        <field name="name">Voxbay Outgoing Calls</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">voxbay.call.data.record</field>
         <field name="view_mode">tree,form</field>
@@ -29,7 +29,7 @@
         <field name="model">voxbay.call.data.record</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="call_uuid"/>
+                <field name="call_uuid" string="UUID" optional="hide"/>
                 <field name="called_number" string="Customer Number"/>
                 <field name="caller_number" string="Operator Number"/>
                 <field name="agent_number"/>
@@ -40,7 +40,7 @@
                 <field name="recording_url" widget="audio_player"/>
                 <field name="call_start_time"/>
                 <field name="call_end_time"/>
-                <field name="dtmf"/>
+                <field name="dtmf" optional="hide"/>
                 <field name="transferred_number" optional="hide"/>
                 <field name="event_status"/>
 
@@ -53,7 +53,7 @@
         <field name="model">voxbay.call.data.record</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="call_uuid"/>
+                <field name="call_uuid" string="UUID" optional="hide"/>
                 <field name="caller_number" string="Customer Number" />
                 <field name="called_number" string="Operator Number"/>
                 <field name="agent_number"/>
@@ -64,7 +64,7 @@
                 <field name="recording_url" widget="audio_player"/>
                 <field name="call_start_time"/>
                 <field name="call_end_time"/>
-                <field name="dtmf"/>
+                <field name="dtmf" optional="hide"/>
                 <field name="transferred_number" optional="hide"/>
                 <field name="event_status"/>
 
