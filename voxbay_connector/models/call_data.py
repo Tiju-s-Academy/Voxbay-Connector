@@ -2,6 +2,16 @@ from odoo import models,fields,api
 
 class VoxbayCallData(models.Model):
     _name = "voxbay.call.data.record"
+    name = fields.Char(string="Name", compute="_compute_name", store=True)
+    @api.depends('call_date', 'call_uuid', 'called_number', 'caller_number')
+    def _compute_name(self):
+        for record in self:
+            record.name = ''
+            if record.call_date:
+                record.name += f'{record.call_date} - '
+            if record.call_uuid:
+                record.name += f'{record.call_uuid}'
+
     call_uuid = fields.Char(string="Call UUID")
     call_type = fields.Selection(string="Call Type", selection=[('incoming', 'Incoming Call'), ('outgoing', 'Outgoing Call')])
     event_status = fields.Selection(string="Event Status", selection=[('agent_received_call', 'Agent Received Call'), ('agent_answered_call', 'Agent Accepted Call'), ('agent_initiated_call', 'Agent Initiated Call'), ('call_ended', 'Call Ended')])

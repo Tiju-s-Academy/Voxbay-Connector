@@ -41,7 +41,7 @@
                 <field name="call_start_time"/>
                 <field name="call_end_time"/>
                 <field name="dtmf"/>
-                <field name="transferred_number"/>
+                <field name="transferred_number" optional="hide"/>
                 <field name="event_status"/>
 
             </tree>
@@ -54,8 +54,8 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="call_uuid"/>
-                <field name="called_number" string="Operator Number"/>
                 <field name="caller_number" string="Customer Number" />
+                <field name="called_number" string="Operator Number"/>
                 <field name="agent_number"/>
                 <field name="call_date"/>
                 <field name="total_call_duration"/>
@@ -65,7 +65,7 @@
                 <field name="call_start_time"/>
                 <field name="call_end_time"/>
                 <field name="dtmf"/>
-                <field name="transferred_number"/>
+                <field name="transferred_number" optional="hide"/>
                 <field name="event_status"/>
 
             </tree>
