@@ -3,7 +3,7 @@
     'author': 'Rizwaan',
     'version': "17.0.0.0",
     'sequence': "0",
-    'depends': ['base','crm','odoo-rest-api'],
+    'depends': ['base','crm','odoo-rest-api', 'audio_player_widget'],
     'data': [
         'security/ir.model.access.csv',
         'views/call_data.xml',
