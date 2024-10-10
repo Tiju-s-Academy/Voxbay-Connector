@@ -6,7 +6,7 @@
         <field name="name">Voxbay Incoming Calls</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">voxbay.call.data.record</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree</field>
         <field name="domain">[('call_type','=','incoming')]</field>
         <field name="context">{'default_call_type': 'incoming'}</field>
         <field name="view_id" ref="voxbay_connector.voxbay_incoming_cdr_tree_view"/>
@@ -18,7 +18,7 @@
         <field name="name">Voxbay Outgoing Calls</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">voxbay.call.data.record</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree</field>
         <field name="domain">[('call_type','=','outgoing')]</field>
         <field name="context">{'default_call_type': 'outgoing'}</field>
         <field name="view_id" ref="voxbay_connector.voxbay_outgoing_cdr_tree_view"/>
@@ -28,14 +28,14 @@
         <field name="name">voxbay.call.data.record.outgoing.tree</field>
         <field name="model">voxbay.call.data.record</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree editable="top">
                 <field name="call_uuid" string="UUID" optional="hide"/>
                 <field name="called_number" string="Customer Number"/>
                 <field name="caller_number" string="Operator Number"/>
                 <field name="agent_number"/>
                 <field name="call_date"/>
-                <field name="total_call_duration"/>
-                <field name="conversation_duration"/>
+                <field name="total_call_duration" readonly="1"/>
+                <field name="conversation_duration" readonly="1"/>
                 <field name="call_status"/>
                 <field name="recording_url" widget="audio_player"/>
                 <field name="call_start_time"/>
@@ -52,7 +52,7 @@
         <field name="name">voxbay.call.data.record.incoming.tree</field>
         <field name="model">voxbay.call.data.record</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree editable="top">
                 <field name="call_uuid" string="UUID" optional="hide"/>
                 <field name="caller_number" string="Customer Number" />
                 <field name="called_number" string="Operator Number"/>
