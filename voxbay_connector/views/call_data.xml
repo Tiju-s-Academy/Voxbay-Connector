@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <!--  Voxbay Incoming CDR -->
-    <record id="voxbay_incoming_cdr_action" model="ir.actions.act_window">
-        <field name="name">Voxbay Incoming Calls</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">voxbay.call.data.record</field>
-        <field name="view_mode">tree</field>
-        <field name="domain">[('call_type','=','incoming')]</field>
-        <field name="context">{'default_call_type': 'incoming'}</field>
-        <field name="view_id" ref="voxbay_connector.voxbay_incoming_cdr_tree_view"/>
-
-    </record>
-
-    <!--  Voxbay Incoming CDR -->
-    <record id="voxbay_outgoing_cdr_action" model="ir.actions.act_window">
-        <field name="name">Voxbay Outgoing Calls</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">voxbay.call.data.record</field>
-        <field name="view_mode">tree</field>
-        <field name="domain">[('call_type','=','outgoing')]</field>
-        <field name="context">{'default_call_type': 'outgoing'}</field>
-        <field name="view_id" ref="voxbay_connector.voxbay_outgoing_cdr_tree_view"/>
-    </record>
-
     <record id="voxbay_incoming_cdr_tree_view" model="ir.ui.view">
         <field name="name">voxbay.call.data.record.outgoing.tree</field>
         <field name="model">voxbay.call.data.record</field>
@@ -72,6 +49,29 @@
 
             </tree>
         </field>
+    </record>
+
+    <!--  Voxbay Incoming CDR -->
+    <record id="voxbay_incoming_cdr_action" model="ir.actions.act_window">
+        <field name="name">Voxbay Incoming Calls</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">voxbay.call.data.record</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('call_type','=','incoming')]</field>
+        <field name="context">{'default_call_type': 'incoming'}</field>
+        <field name="view_id" ref="voxbay_connector.voxbay_incoming_cdr_tree_view"/>
+
+    </record>
+
+    <!--  Voxbay Incoming CDR -->
+    <record id="voxbay_outgoing_cdr_action" model="ir.actions.act_window">
+        <field name="name">Voxbay Outgoing Calls</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">voxbay.call.data.record</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('call_type','=','outgoing')]</field>
+        <field name="context">{'default_call_type': 'outgoing'}</field>
+        <field name="view_id" ref="voxbay_connector.voxbay_outgoing_cdr_tree_view"/>
     </record>
 
     <record id="voxbay_incoming_cdr_search_view" model="ir.ui.view">
