@@ -8,7 +8,7 @@
     >
         <xpath expr="//t[@t-if='props.readonly']" position="replace">
             <t t-if='props.readonly'>
-                <audio controls="controls" t-if="props.record.data[props.name]">
+                <audio controls="controls" preload="none" t-if="props.record.data[props.name]">
                     <source t-att-src="props.record.data[props.name]"/>
                     Your browser does not support the audio element.
                 </audio>

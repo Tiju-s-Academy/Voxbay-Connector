@@ -39,6 +39,7 @@ class HrEmployee(models.Model):
             'context': {'create': False},
             'view_mode': 'list',
             'domain': [('id', 'in', self.voxbay_incoming_calls.ids)],
+            'views': [(self.env.ref('voxbay_connector.voxbay_incoming_cdr_tree_view').id, 'list')],
         }
     
     def action_view_outgoing_calls(self):
@@ -49,4 +50,6 @@ class HrEmployee(models.Model):
             'context': {'create': False},
             'view_mode': 'list',
             'domain': [('id', 'in', self.voxbay_outgoing_calls.ids)],
+            'views': [(self.env.ref('voxbay_connector.voxbay_outgoing_cdr_tree_view').id, 'list')],
+
         }
