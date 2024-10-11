@@ -28,10 +28,11 @@
         <field name="name">voxbay.call.data.record.outgoing.tree</field>
         <field name="model">voxbay.call.data.record</field>
         <field name="arch" type="xml">
-            <tree editable="top">
+            <tree editable="bottom">
                 <field name="call_uuid" string="UUID" optional="hide"/>
                 <field name="called_number" string="Customer Number"/>
                 <field name="caller_number" string="Operator Number"/>
+                <field name="operator_employee_id" readonly="1"/>
                 <field name="agent_number"/>
                 <field name="call_date"/>
                 <field name="total_call_duration" readonly="1"/>
@@ -56,6 +57,7 @@
                 <field name="call_uuid" string="UUID" optional="hide"/>
                 <field name="caller_number" string="Customer Number" />
                 <field name="called_number" string="Operator Number"/>
+                <field name="operator_employee_id" readonly="1"/>
                 <field name="agent_number"/>
                 <field name="call_date"/>
                 <field name="total_call_duration"/>

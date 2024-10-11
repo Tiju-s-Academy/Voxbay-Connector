@@ -35,3 +35,14 @@ class VoxbayCallData(models.Model):
     caller_id = fields.Char(string="Caller ID") #Not present in data received by voxbay api
     conversation_duration = fields.Integer("Conversation Duration")
 
+    operator_employee_id = fields.Many2one('hr.employee', string="Operator Employee", compute="_compute_operator_employee_id", store=True, readonly=False)
+
+    @api.depends('agent_number')
+    def _compute_operator_employee_id(self):
+        for record in self:
+            if record.agent_number:
+                operator_employee = self.env['hr.employee'].sudo().search([('agent_number','=',record.agent_number)], limit=1)
+                if operator_employee:
+                    record.operator_employee_id = operator_employee[0].id
+                    continue
+            record.operator_employee_id = False
