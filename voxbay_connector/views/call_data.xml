@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <record id="voxbay_incoming_cdr_tree_view" model="ir.ui.view">
+    <record id="voxbay_outgoing_cdr_tree_view" model="ir.ui.view">
         <field name="name">voxbay.call.data.record.outgoing.tree</field>
         <field name="model">voxbay.call.data.record</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <tree>
                 <field name="call_uuid" string="UUID" optional="hide"/>
                 <field name="called_number" string="Customer Number"/>
                 <field name="caller_number" string="Operator Number"/>
@@ -26,11 +26,11 @@
         </field>
     </record>
 
-    <record id="voxbay_outgoing_cdr_tree_view" model="ir.ui.view">
+    <record id="voxbay_incoming_cdr_tree_view" model="ir.ui.view">
         <field name="name">voxbay.call.data.record.incoming.tree</field>
         <field name="model">voxbay.call.data.record</field>
         <field name="arch" type="xml">
-            <tree editable="top">
+            <tree>
                 <field name="call_uuid" string="UUID" optional="hide"/>
                 <field name="caller_number" string="Customer Number" />
                 <field name="called_number" string="Operator Number"/>
@@ -57,13 +57,13 @@
         <field name="model">voxbay.call.data.record</field>
         <field name="arch" type="xml">
             <search>
-                <field name="called_number"/>
-                <field name="caller_number"/>
+                <field name="lead_id"/>
+                <field name="called_number" string="Called Number"/>
+                <field name="caller_number" string="Caller Number"/>
                 <field name="agent_number"/>
                 <field name="transferred_number"/>
                 <field name="dtmf"/>
                 <field name="recording_url"/>
-
                 <!-- Filter by call type -->
                 <filter string="Incoming Calls" name="call_type_incoming" domain="[('call_type', '=', 'incoming')]"/>
                 <filter string="Outgoing Calls" name="call_type_outgoing" domain="[('call_type', '=', 'outgoing')]"/>
@@ -80,6 +80,7 @@
 
                 <!-- Group by call status -->
                 <group expand="1" string="Group By">
+                    <filter string="Lead" name="group_by_lead" context="{'group_by': 'lead_id'}"/>
                     <filter string="Call Status" name="group_by_call_status" context="{'group_by': 'call_status'}"/>
                     <filter string="Call Date" name="group_by_call_date" context="{'group_by': 'call_date'}"/>
                 </group>

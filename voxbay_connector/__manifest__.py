@@ -7,6 +7,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/hr_employee.xml',
+        'views/crm.xml',
         'views/call_data.xml',
     ],
     'demo': [],

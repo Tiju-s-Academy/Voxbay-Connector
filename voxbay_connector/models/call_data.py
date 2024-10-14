@@ -37,6 +37,7 @@ class VoxbayCallData(models.Model):
 
     operator_employee_id = fields.Many2one('hr.employee', string="Operator Employee", compute="_compute_operator_employee_id", store=True, readonly=False)
 
+    lead_id = fields.Many2one('crm.lead', string="Lead")
     @api.depends('agent_number')
     def _compute_operator_employee_id(self):
         for record in self:
@@ -46,3 +47,23 @@ class VoxbayCallData(models.Model):
                     record.operator_employee_id = operator_employee[0].id
                     continue
             record.operator_employee_id = False
+
+    @api.model_create_multi
+    def create(self, vals):
+        res = super().create(vals)
+        lead = []
+        for record in res:
+            if record.call_type == 'incoming':
+                lead = self.env['crm.lead'].sudo().search([('phone','like',record.caller_number)], limit=1)
+                contact_number = record.caller_number
+            elif record.call_type == 'outgoing':
+                lead = self.env['crm.lead'].sudo().search([('phone','like',record.called_number)], limit=1)
+                contact_number = record.called_number
+            if lead:
+                record.lead_id = lead[0].id
+            else:
+                record.lead_id = self.env['crm.lead'].create({
+                    'name': contact_number,
+                    'phone': contact_number,
+                }).id
+        return res
