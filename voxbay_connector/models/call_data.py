@@ -67,6 +67,7 @@ class VoxbayCallData(models.Model):
                 record.lead_id = self.env['crm.lead'].sudo().create({
                     'name': contact_number,
                     'phone': contact_number,
+                    'user_id': (record.operator_employee_id.user_id or self.sudo().env.user).id,
                 }).id
             _logger.error(f"Created or Updated Lead with Number: {record.lead_id.phone}")
         return res
