@@ -62,7 +62,7 @@ class VoxbayCallData(models.Model):
             if lead:
                 record.lead_id = lead[0].id
             else:
-                record.lead_id = self.env['crm.lead'].create({
+                record.lead_id = self.env['crm.lead'].sudo().create({
                     'name': contact_number,
                     'phone': contact_number,
                 }).id
