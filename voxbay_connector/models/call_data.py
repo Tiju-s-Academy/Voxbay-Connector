@@ -1,4 +1,4 @@
-from odoo import models,fields,api
+from odoo import models,fields,api, SUPERUSER_ID
 import logging
 
 _logger = logging.getLogger("Voxbay Debug")
@@ -53,21 +53,38 @@ class VoxbayCallData(models.Model):
     @api.model_create_multi
     def create(self, vals):
         res = super().create(vals)
-        lead = []
-        for record in res:
+        return res
+    
+    def update(self, vals):
+        res = super().update(vals)
+        if self.lead_id:
+            # Set current user in env variable as either the user of the employee who made the call or the SUPERUSER
+            self = self.with_user(self.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID))
+            # Update the user_id field of Lead with the actual user who made the call, instead of the SUPERUSER
+            if (self.lead_id.user_id.id == SUPERUSER_ID and self.env.user.id != SUPERUSER_ID):
+                self.lead_id.update({'user_id': self.env.user.id})
+        return res
+
+    # Function to create a new lead from call record or assign new lead to call record
+    def create_update_lead(self):
+        for record in self:
+            lead = False
             if record.call_type == 'incoming':
-                lead = self.env['crm.lead'].sudo().search([('phone','like',record.caller_number)], limit=1)
+                lead = self.env['crm.lead'].sudo().search([('phone','=',record.caller_number), ('phone','!=',False)], limit=1)
                 contact_number = record.caller_number
             elif record.call_type == 'outgoing':
-                lead = self.env['crm.lead'].sudo().search([('phone','like',record.called_number)], limit=1)
+                lead = self.env['crm.lead'].sudo().search([('phone','=',record.called_number), ('phone','!=',False)], limit=1)
                 contact_number = record.called_number
             if lead:
                 record.lead_id = lead[0].id
             else:
-                record.lead_id = self.env['crm.lead'].sudo().create({
+                self = self.with_user(record.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID))
+                lead_data = {
                     'name': contact_number,
                     'phone': contact_number,
-                    'user_id': (record.operator_employee_id.user_id or self.sudo().env.user).id,
-                }).id
+                    'user_id': self.env.user.id,
+                    'type': 'lead',
+                }
+                _logger.error(f'lead_data, {lead_data}')
+                record.lead_id = self.env['crm.lead'].sudo().create(lead_data).id
             _logger.error(f"Created or Updated Lead with Number: {record.lead_id.phone}")
-        return res

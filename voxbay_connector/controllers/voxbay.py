@@ -18,13 +18,14 @@ class VoxbayApi(http.Controller):
     def incoming_landed(self, *args, **post):
         try:
             post_data: dict = request.httprequest.json
-            request.env['voxbay.call.data.record'].sudo().create({
+            call_record = request.env['voxbay.call.data.record'].sudo().create({
                 'called_number': post_data['calledNumber'],
                 'caller_number': post_data['callerNumber'],
                 'call_uuid': post_data['CallUUID'],
                 'event_status': 'agent_received_call',
                 'call_type': 'incoming',
             })
+            call_record.create_update_lead()
             return json.dumps({'status': 'success',})
 
         except Exception as e:
@@ -54,7 +55,8 @@ class VoxbayApi(http.Controller):
             if call_record:
                 call_record.update(data)
             else:
-                request.env['voxbay.call.data.record'].sudo().create(data)
+                call_record = request.env['voxbay.call.data.record'].sudo().create(data)
+            call_record.create_update_lead()
                 # _logger.error(f"Record with CallUUID {post_data['CallUUID']} Doesn't Exist")
             return json.dumps({'status': 'success',})
 
@@ -86,7 +88,8 @@ class VoxbayApi(http.Controller):
             if call_record:
                 call_record.update(data)     
             else:
-                request.env['voxbay.call.data.record'].sudo().create(data)
+                call_record = request.env['voxbay.call.data.record'].sudo().create(data)
+            call_record.create_update_lead()
 
             return json.dumps({'status': 'success',})
 
@@ -129,7 +132,8 @@ class VoxbayApi(http.Controller):
             if call_record:
                 call_record.update(data)
             else:
-                request.env['voxbay.call.data.record'].sudo().create(data)
+                call_record = request.env['voxbay.call.data.record'].sudo().create(data)
+            call_record.create_update_lead()
                 # _logger.error(f"Record with CallUUID {post_data['CallUUID']} Doesn't Exist")
             return json.dumps({'status': 'success',})
 
@@ -157,12 +161,14 @@ class VoxbayApi(http.Controller):
                 'caller_number': post_data['callerNumber'],
                 'called_number': post_data['calledNumber'],
                 # 'caller_id': post_data['callerId'],
-                'call_uuid': post_data['CallUUlD'],
+                'agent_number': post_data.get('AgentNumber',False),
+                'call_uuid': post_data['CallUUID'],
                 'event_status': 'agent_initiated_call',
                 'call_type': 'outgoing',                
             }
 
-            request.env['voxbay.call.data.record'].sudo().create(data)
+            call_record = request.env['voxbay.call.data.record'].sudo().create(data)
+            call_record.create_update_lead()
             return json.dumps({'status': 'success',})
 
         except Exception as e:
@@ -184,7 +190,7 @@ class VoxbayApi(http.Controller):
                 'caller_number': post_data['callerNumber'],
                 'called_number': post_data['calledNumber'],
                 # 'caller_id': post_data['callerId'],
-                'call_uuid': post_data['CallUUlD'],
+                'call_uuid': post_data['CallUUID'],
                 'call_type': 'outgoing',     
 
                 'agent_number': post_data['AgentNumber'],
@@ -204,7 +210,8 @@ class VoxbayApi(http.Controller):
             if call_record:
                 call_record.update(data)   
             else:
-                request.env['voxbay.call.data.record'].sudo().create(data)
+                call_record = request.env['voxbay.call.data.record'].sudo().create(data)
+            call_record.create_update_lead()
                 # _logger.error(f"Record with CallUUID {post_data['CallUUID']} Doesn't Exist")
             return json.dumps({'status': 'success',})
 
