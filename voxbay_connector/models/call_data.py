@@ -80,7 +80,7 @@ class VoxbayCallData(models.Model):
             else:
                 self = self.with_user(record.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID))
                 lead_data = {
-                    'name': contact_number,
+                    'name': f'[{record.call_type.upper()}] {contact_number}',
                     'phone': contact_number,
                     'user_id': self.env.user.id,
                     'type': 'lead',

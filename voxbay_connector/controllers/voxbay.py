@@ -120,8 +120,8 @@ class VoxbayApi(http.Controller):
                     'call_date': post_data['callDate'],                      # Date and time of the call
                     'call_status': post_data['callStatus'],                  # Status of the call
                     'recording_url': post_data['recording_URL'],             # Recording URL
-                    'call_start_time': f"{post_data['callDate'].split(' ')[0]} {post_data['callStartTime']}",           # Call start time
-                    'call_end_time': f"{post_data['callDate'].split(' ')[0]} {post_data['callEndTime']}",               # Call end time
+                    'call_start_time': post_data['callStartTime'],
+                    'call_end_time': post_data['callEndTime'],
                     'conversation_duration': post_data['conversationDuration'],  # Conversation duration
                     'dtmf': post_data['dtmf'],                              # DTMF input sequence
                     'transferred_number': post_data['transferredNumber'],    # Transferred number
