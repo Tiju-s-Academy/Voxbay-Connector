@@ -1,5 +1,7 @@
 from odoo import models,fields,api
+import logging
 
+_logger = logging.getLogger("Voxbay Debug")
 class VoxbayCallData(models.Model):
     _name = "voxbay.call.data.record"
     name = fields.Char(string="Name", compute="_compute_name", store=True)
@@ -66,4 +68,5 @@ class VoxbayCallData(models.Model):
                     'name': contact_number,
                     'phone': contact_number,
                 }).id
+            _logger.error(f"Created or Updated Lead with Number: {record.lead_id.phone}")
         return res
