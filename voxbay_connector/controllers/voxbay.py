@@ -18,6 +18,7 @@ class VoxbayApi(http.Controller):
     def incoming_landed(self, *args, **post):
         try:
             post_data: dict = request.httprequest.json
+            _logger.info(f"API Incoming Landed Called with data: {post_data}")
             call_record = request.env['voxbay.call.data.record'].sudo().create({
                 'called_number': post_data['calledNumber'],
                 'caller_number': post_data['callerNumber'],
@@ -41,6 +42,7 @@ class VoxbayApi(http.Controller):
     def incoming_answered(self, *args, **post):
         try:
             post_data: dict = request.httprequest.json
+            _logger.info(f"API Incoming Answered Called with data: {post_data}")
 
             data =  {
                     'called_number': post_data['calledNumber'],
@@ -74,6 +76,7 @@ class VoxbayApi(http.Controller):
     def incoming_disconnected(self, *args, **post):
         try:
             post_data: dict = request.httprequest.json
+            _logger.info(f"API Incoming Disconnected Called with data: {post_data}")
 
             data =  {
                     'called_number': post_data['calledNumber'],
@@ -109,6 +112,7 @@ class VoxbayApi(http.Controller):
     def incoming_cdr_push(self, *args, **post):
         try:
             post_data: dict = request.httprequest.json
+            _logger.info(f"API Incoming CDR Push Called with data: {post_data}")
 
             data =  {
                     'called_number': post_data['calledNumber'],
@@ -156,6 +160,7 @@ class VoxbayApi(http.Controller):
     def outgoing_initiated(self, *args, **post):
         try:
             post_data: dict = request.httprequest.json
+            _logger.info(f"API Outgoing Initiated Called with data: {post_data}")
 
             data = {
                 'caller_number': post_data['callerNumber'],
@@ -185,6 +190,7 @@ class VoxbayApi(http.Controller):
     def outgoing_cdr_push(self, **post):
         try:
             post_data: dict = request.httprequest.json
+            _logger.info(f"API Incoming CDR Push Called with data: {post_data}")
 
             data = {
                 'caller_number': post_data['callerNumber'],
