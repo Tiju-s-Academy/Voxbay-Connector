@@ -21,6 +21,7 @@
                 <field name="dtmf" optional="hide"/>
                 <field name="transferred_number" optional="hide"/>
                 <field name="event_status"/>
+                <field name="call_type"/>
 
             </tree>
         </field>
@@ -46,6 +47,7 @@
                 <field name="dtmf" optional="hide"/>
                 <field name="transferred_number" optional="hide"/>
                 <field name="event_status"/>
+                <field name="call_type"/>
 
             </tree>
         </field>
