@@ -55,14 +55,15 @@ class VoxbayCallData(models.Model):
         res = super().create(vals)
         return res
     
-    def update(self, vals):
-        res = super().update(vals)
-        if self.lead_id:
-            # Set current user in env variable as either the user of the employee who made the call or the SUPERUSER
-            self = self.with_user(self.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID))
-            # Update the user_id field of Lead with the actual user who made the call, instead of the SUPERUSER
-            if (self.lead_id.user_id.id == SUPERUSER_ID and self.env.user.id != SUPERUSER_ID):
-                self.lead_id.update({'user_id': self.env.user.id})
+    def write(self, vals):
+        res = super().write(vals)
+        for record in self:
+            if record.lead_id:
+                # Set current user in env variable as either the user of the employee who made the call or the SUPERUSER
+                self = self.with_user(record.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID))
+                # Update the user_id field of Lead with the actual user who made the call, instead of the SUPERUSER
+                if (record.lead_id.user_id.id == SUPERUSER_ID and self.env.user.id != SUPERUSER_ID):
+                    record.lead_id.write({'user_id': self.env.user.id})
         return res
 
     # Function to create a new lead from call record or assign new lead to call record

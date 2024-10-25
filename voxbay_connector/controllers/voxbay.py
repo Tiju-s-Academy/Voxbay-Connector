@@ -55,7 +55,7 @@ class VoxbayApi(http.Controller):
 
             call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',post_data['CallUUID'])])
             if call_record:
-                call_record.update(data)
+                call_record.write(data)
             else:
                 call_record = request.env['voxbay.call.data.record'].sudo().create(data)
             call_record.create_update_lead()
@@ -89,7 +89,7 @@ class VoxbayApi(http.Controller):
             
             call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',post_data['CallUUID'])])        
             if call_record:
-                call_record.update(data)     
+                call_record.write(data)     
             else:
                 call_record = request.env['voxbay.call.data.record'].sudo().create(data)
             call_record.create_update_lead()
@@ -134,7 +134,7 @@ class VoxbayApi(http.Controller):
 
             call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',post_data['CallUUID'])])
             if call_record:
-                call_record.update(data)
+                call_record.write(data)
             else:
                 call_record = request.env['voxbay.call.data.record'].sudo().create(data)
             call_record.create_update_lead()
@@ -214,7 +214,7 @@ class VoxbayApi(http.Controller):
 
             call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',post_data['CallUUID'])])
             if call_record:
-                call_record.update(data)   
+                call_record.write(data)   
             else:
                 call_record = request.env['voxbay.call.data.record'].sudo().create(data)
             call_record.create_update_lead()
