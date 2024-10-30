@@ -29,7 +29,7 @@ class TelinfyApi(http.Controller):
                         'partner_id': request.env['res.partner'].sudo().create({'name': lead_name, 'company_type': 'person', 'phone': from_number}).id,
                         'phone': from_number,
                         'user_id': superuser.id,
-                        'description': message['text']['body'],
+                        'description': f"<p>{message['text']['body']}</p>",
                         'type': 'lead',  
                         })
                         _logger.info(f'Lead {lead_name}, {from_number} created successfully!')
