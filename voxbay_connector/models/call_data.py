@@ -1,5 +1,6 @@
 from odoo import models,fields,api, SUPERUSER_ID
 import logging
+import random
 
 _logger = logging.getLogger("Voxbay Debug")
 class VoxbayCallData(models.Model):
@@ -79,13 +80,35 @@ class VoxbayCallData(models.Model):
             if lead:
                 record.lead_id = lead[0].id
             else:
-                self = self.with_user(record.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID))
+
+                sales_team = False
+                sales_teams = self.env['crm.team'].sudo().search([])
+                if sales_teams:
+                    random_choice = random.choice(range(len(sales_teams)))
+                    sales_team = sales_teams[random_choice]
+
+                lead_user = record.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID)
+                self = self.with_user(lead_user) #We need this line to set a user (any user) in the env variable, otherwise Odoo throws error when creating a new lead.
+
                 lead_data = {
                     'name': f'[{record.call_type.upper()}] {contact_number}',
                     'phone': contact_number,
-                    'user_id': self.env.user.id,
                     'type': 'lead',
+                    'user_id': lead_user.id #If the user can be computed from agent number, then set the user_id field
                 }
+
+                sales_team = False
+                # If the user cannot be figured out from agent number (or there is no agent number in the api data), then set only the sales team (randomly)
+                if lead_user.id == SUPERUSER_ID:
+                    sales_teams = self.env['crm.team'].sudo().search([])
+                    if sales_teams:
+                        random_choice = random.choice(range(len(sales_teams)))
+                        sales_team = sales_teams[random_choice]
+                if sales_team:
+                    lead_data.update({'team_id': sales_team.id, 'user_id': False}) #Set only sales team and let it automatically assign the lead user (from sales team) or make lead_user empty
+
+
                 _logger.error(f'lead_data, {lead_data}')
                 record.lead_id = self.env['crm.lead'].sudo().create(lead_data).id
+
             _logger.error(f"Created or Updated Lead with Number: {record.lead_id.phone}")
