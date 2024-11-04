@@ -6,10 +6,10 @@ _logger = logging.getLogger("Voxbay Debug")
 class VoxbayCallData(models.Model):
     _name = "voxbay.call.data.record"
     name = fields.Char(string="Name", compute="_compute_name", store=True)
-    @api.depends('call_date', 'call_uuid', 'called_number', 'caller_number')
+    @api.depends('call_type', 'call_date', 'call_uuid', 'called_number', 'caller_number')
     def _compute_name(self):
         for record in self:
-            record.name = ''
+            record.name = f"[{(record.call_type or '')}] "
             if record.call_date:
                 record.name += f'{record.call_date} - '
             if record.call_uuid:

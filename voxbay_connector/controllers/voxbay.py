@@ -19,13 +19,14 @@ class VoxbayApi(http.Controller):
         try:
             post_data: dict = request.httprequest.json
             _logger.info(f"API Incoming Landed Called with data: {post_data}")
-            call_record = request.env['voxbay.call.data.record'].sudo().create({
+            data = {
                 'called_number': post_data['calledNumber'],
                 'caller_number': post_data['callerNumber'],
                 'call_uuid': post_data['CallUUID'],
                 'event_status': 'agent_received_call',
                 'call_type': 'incoming',
-            })
+            }
+            call_record = request.env['voxbay.call.data.record'].sudo().create(data)
             call_record.create_update_lead()
             return json.dumps({'status': 'success',})
 
@@ -190,7 +191,7 @@ class VoxbayApi(http.Controller):
     def outgoing_cdr_push(self, **post):
         try:
             post_data: dict = request.httprequest.json
-            _logger.info(f"API Incoming CDR Push Called with data: {post_data}")
+            _logger.info(f"API Outgoing CDR Push Called with data: {post_data}")
 
             data = {
                 'caller_number': post_data['callerNumber'],
