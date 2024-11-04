@@ -4,7 +4,7 @@ import logging
 import json
 import traceback
 _logger = logging.getLogger("Telinfy Debug: ")
-
+import random
 
 class TelinfyApi(http.Controller):
 
@@ -24,11 +24,17 @@ class TelinfyApi(http.Controller):
                     if lead:
                         _logger.info(f'Lead already exists for this whatsapp contact {lead_name}, {from_number}.')
                     else:
+                        sales_team = False
+                        sales_teams = request.env['crm.team'].sudo().search([])
+                        if sales_teams:
+                            random_choice = random.choice(range(len(sales_teams)))
+                            sales_team = sales_teams[random_choice]
                         lead = request.env['crm.lead'].with_user(superuser).create({
                         'name': f'[Whatsapp] {lead_name}',
                         'partner_id': request.env['res.partner'].sudo().create({'name': lead_name, 'company_type': 'person', 'phone': from_number}).id,
                         'phone': from_number,
-                        'user_id': superuser.id,
+                        'user_id': False,
+                        'team_id': sales_team.id,
                         'description': f"<p>{message['text']['body']}</p>",
                         'type': 'lead',  
                         })
