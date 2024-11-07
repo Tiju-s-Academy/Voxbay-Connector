@@ -60,7 +60,7 @@ class VoxbayCallData(models.Model):
         res = super().write(vals)
         for record in self:
             if record.lead_id:
-                record._compute_operator_employee_id()
+                # record._compute_operator_employee_id()
                 # Set current user in env variable as either the user of the employee who made the call or the SUPERUSER
                 self = self.with_user(record.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID))
                 # Update the user_id field of Lead with the actual user who made the call, instead of the SUPERUSER
