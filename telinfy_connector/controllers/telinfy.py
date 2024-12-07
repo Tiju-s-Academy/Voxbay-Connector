@@ -38,7 +38,7 @@ class TelinfyApi(http.Controller):
                         'team_id': sales_team.id,
                         'description': f"<p>{message['text']['body']}</p>",
                         'type': 'lead',
-                        'source_id': 'WhatsApp API',
+                        'source_id': 81,
                         })
                         _logger.info(f'Lead {lead_name}, {from_number} created successfully!')
         return json.dumps({'status': 'success',})
