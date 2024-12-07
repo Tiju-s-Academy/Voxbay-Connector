@@ -95,6 +95,7 @@ class VoxbayCallData(models.Model):
                     'name': f'[{record.call_type.upper()}] {contact_number}',
                     'phone': contact_number,
                     'type': 'lead',
+                    'source_id': 'Voxbay API',
                     'user_id': lead_user.id #If the user can be computed from agent number, then set the user_id field
                 }
 
