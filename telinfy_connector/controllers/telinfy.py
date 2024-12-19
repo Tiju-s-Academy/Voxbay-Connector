@@ -23,6 +23,8 @@ class TelinfyApi(http.Controller):
                     lead = request.env['crm.lead'].sudo().search([('phone','like',from_number), ('phone','!=',False)], limit=1)
                     if lead:
                         _logger.info(f'Lead already exists for this whatsapp contact {lead_name}, {from_number}.')
+                        # Add message to chatter
+                        lead.message_post(body=f"WhatsApp Message: {message['text']['body']}")
                     else:
                         sales_team = False
                         sales_teams = request.env['crm.team'].sudo().search([])
@@ -41,9 +43,7 @@ class TelinfyApi(http.Controller):
                         'source_id': 81,
                         })
                         _logger.info(f'Lead {lead_name}, {from_number} created successfully!')
-                    # Add message to chatter
-                    lead.message_post(body=f"WhatsApp Message: {message['text']['body']}")
                 else:
                     # Add message to chatter for non-text messages
-                    lead.message_post(body=f"WhatsApp Message: {message['text']['body']}")
+                    lead.message_post(body=f"WhatsApp Message: {message}")
         return json.dumps({'status': 'success',})
