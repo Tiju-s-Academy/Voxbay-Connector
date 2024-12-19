@@ -43,4 +43,7 @@ class TelinfyApi(http.Controller):
                         _logger.info(f'Lead {lead_name}, {from_number} created successfully!')
                     # Add message to chatter
                     lead.message_post(body=f"WhatsApp Message: {message['text']['body']}")
+                else:
+                    # Add message to chatter for non-text messages
+                    lead.message_post(body=f"WhatsApp Message: {message}")
         return json.dumps({'status': 'success',})
