@@ -94,7 +94,16 @@ class VoxbayApi(http.Controller):
             else:
                 call_record = request.env['voxbay.call.data.record'].sudo().create(data)
             call_record.create_update_lead()
-
+            # Ensure the sales team is assigned correctly
+            if call_record.lead_id and not call_record.lead_id.team_id:
+                if call_record.lead_id.user_id and call_record.lead_id.user_id.sale_team_id:
+                    call_record.lead_id.write({'team_id': call_record.lead_id.user_id.sale_team_id.id})
+                else:
+                    sales_teams = request.env['crm.team'].sudo().search([])
+                    if sales_teams:
+                        random_choice = random.choice(range(len(sales_teams)))
+                        sales_team = sales_teams[random_choice]
+                        call_record.lead_id.write({'team_id': sales_team.id})
             return json.dumps({'status': 'success',})
 
                 # _logger.error(f"Record with CallUUID {post_data['CallUUID']} Doesn't Exist")   
@@ -139,7 +148,16 @@ class VoxbayApi(http.Controller):
             else:
                 call_record = request.env['voxbay.call.data.record'].sudo().create(data)
             call_record.create_update_lead()
-                # _logger.error(f"Record with CallUUID {post_data['CallUUID']} Doesn't Exist")
+            # Ensure the sales team is assigned correctly
+            if call_record.lead_id and not call_record.lead_id.team_id:
+                if call_record.lead_id.user_id and call_record.lead_id.user_id.sale_team_id:
+                    call_record.lead_id.write({'team_id': call_record.lead_id.user_id.sale_team_id.id})
+                else:
+                    sales_teams = request.env['crm.team'].sudo().search([])
+                    if sales_teams:
+                        random_choice = random.choice(range(len(sales_teams)))
+                        sales_team = sales_teams[random_choice]
+                        call_record.lead_id.write({'team_id': sales_team.id})
             return json.dumps({'status': 'success',})
 
 
@@ -219,7 +237,16 @@ class VoxbayApi(http.Controller):
             else:
                 call_record = request.env['voxbay.call.data.record'].sudo().create(data)
             call_record.create_update_lead()
-                # _logger.error(f"Record with CallUUID {post_data['CallUUID']} Doesn't Exist")
+            # Ensure the sales team is assigned correctly
+            if call_record.lead_id and not call_record.lead_id.team_id:
+                if call_record.lead_id.user_id and call_record.lead_id.user_id.sale_team_id:
+                    call_record.lead_id.write({'team_id': call_record.lead_id.user_id.sale_team_id.id})
+                else:
+                    sales_teams = request.env['crm.team'].sudo().search([])
+                    if sales_teams:
+                        random_choice = random.choice(range(len(sales_teams)))
+                        sales_team = sales_teams[random_choice]
+                        call_record.lead_id.write({'team_id': sales_team.id})
             return json.dumps({'status': 'success',})
 
         except Exception as e:
