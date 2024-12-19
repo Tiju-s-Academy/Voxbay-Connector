@@ -32,7 +32,7 @@ class TelinfyApi(http.Controller):
                             sales_team = sales_teams[random_choice]
                         sales_team = sales_teams[0] #comment this line to bypass team assignment
                         lead = request.env['crm.lead'].with_user(superuser).create({
-                        'name': f'[Whatsapp] {lead_name}',
+                        'name': f'[WhatsApp] {lead_name}',
                         'partner_id': request.env['res.partner'].sudo().create({'name': lead_name, 'company_type': 'person', 'phone': from_number}).id,
                         'phone': from_number,
                         'user_id': False,
@@ -43,9 +43,8 @@ class TelinfyApi(http.Controller):
                         })
                         _logger.info(f'Lead {lead_name}, {from_number} created successfully!')
                     # Add message to chatter
+                    lead.message_post(body=f"WhatsApp Message: {message['text']['body']}")
                 else:
                     # Add message to chatter for non-text messages
-                    if lead:
-                        lead.message_post(body=f"WhatsApp Message: {message}")
                     lead.message_post(body=f"WhatsApp Message: {message}")
         return json.dumps({'status': 'success',})
