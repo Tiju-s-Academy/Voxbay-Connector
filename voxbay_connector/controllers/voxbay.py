@@ -182,11 +182,10 @@ class VoxbayApi(http.Controller):
             _logger.info(f"API Outgoing Initiated Called with data: {post_data}")
 
             data = {
-                'caller_number': post_data['callerNumber'],
-                'called_number': post_data['calledNumber'],
-                # 'caller_id': post_data['callerId'],
-                'agent_number': post_data.get('AgentNumber',False),
-                'call_uuid': post_data['CallUUID'],
+                'caller_number': post_data.get('callerid'),
+                'called_number': post_data.get('destination'),
+                'agent_number': post_data.get('extension'),
+                'call_uuid': post_data.get('callUUlD'),
                 'event_status': 'agent_initiated_call',
                 'call_type': 'outgoing',                
             }
