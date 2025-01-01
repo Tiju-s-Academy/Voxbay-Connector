@@ -34,6 +34,9 @@
             <xpath expr="//field[@name='coach_id']" position="after">
                 <field name="agent_number" />
             </xpath>
+            <xpath expr="//field[@name='agent_number']" position="after">
+                <field name="voxbay_agent_number_outgoing" />
+            </xpath>
         </field>
     </record>
 </odoo>

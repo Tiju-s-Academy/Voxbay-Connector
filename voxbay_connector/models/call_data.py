@@ -45,7 +45,7 @@ class VoxbayCallData(models.Model):
     def _compute_operator_employee_id(self):
         for record in self:
             if record.agent_number:
-                operator_employee = self.env['hr.employee'].sudo().search([('agent_number','=',record.agent_number)], limit=1)
+                operator_employee = self.env['hr.employee'].sudo().search(['|', ('agent_number', '=', record.agent_number), ('voxbay_agent_number_outgoing', '=', record.agent_number)], limit=1)
                 if operator_employee:
                     record.operator_employee_id = operator_employee[0].id
                     continue

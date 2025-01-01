@@ -6,6 +6,7 @@ class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
     agent_number = fields.Char(string="Voxbay Agent Number")
+    voxbay_agent_number_outgoing = fields.Char(string="Voxbay Agent Number (Outgoing)")
 
     voxbay_incoming_calls = fields.One2many('voxbay.call.data.record', 'operator_employee_id', string="Incoming Calls", domain=[('call_type','=','incoming')])
     voxbay_incoming_calls_count = fields.Integer(compute="_compute_voxbay_incoming_calls_count")
@@ -21,12 +22,12 @@ class HrEmployee(models.Model):
         for record in self:
             record.voxbay_outgoing_calls_count = len(record.voxbay_outgoing_calls)
 
-    @api.onchange('agent_number')
+    @api.onchange('agent_number', 'voxbay_agent_number_outgoing')
     def onchange_agent_number(self):
-        if self.agent_number:
-            domain = [('agent_number','=',self.agent_number)]
+        if self.agent_number or self.voxbay_agent_number_outgoing:
+            domain = ['|', ('agent_number', '=', self.agent_number), ('voxbay_agent_number_outgoing', '=', self.voxbay_agent_number_outgoing)]
             if isinstance(self.id, int):
-                domain.append(('id','!=', self.id))
+                domain.append(('id', '!=', self.id))
             employee_with_same_agent_no = self.env['hr.employee'].sudo().search(domain, limit=1)
             if employee_with_same_agent_no:
                 raise ValidationError(f"This Agent Number is already assigned to {employee_with_same_agent_no[0].name}! You need to unassign this Agent Number from {employee_with_same_agent_no[0].name}, before setting it to another Employee.")
