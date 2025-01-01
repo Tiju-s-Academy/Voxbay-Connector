@@ -25,7 +25,11 @@ class HrEmployee(models.Model):
     @api.onchange('agent_number', 'voxbay_agent_number_outgoing')
     def onchange_agent_number(self):
         if self.agent_number or self.voxbay_agent_number_outgoing:
-            domain = ['|', ('agent_number', '=', self.agent_number), ('voxbay_agent_number_outgoing', '=', self.voxbay_agent_number_outgoing)]
+            domain = []
+            if self.agent_number:
+                domain.append(('agent_number', '=', self.agent_number))
+            if self.voxbay_agent_number_outgoing:
+                domain.append(('voxbay_agent_number_outgoing', '=', self.voxbay_agent_number_outgoing))
             if isinstance(self.id, int):
                 domain.append(('id', '!=', self.id))
             employee_with_same_agent_no = self.env['hr.employee'].sudo().search(domain, limit=1)
