@@ -6,6 +6,10 @@ class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
     agent_number = fields.Char(string="Voxbay Agent Number")
+    voxbay_callerid = fields.Char(string="Voxbay Caller ID")
+    voxbay_uid = fields.Char(string="Voxbay UID")
+    voxbay_pin = fields.Char(string="Voxbay PIN")
+    voxbay_extension = fields.Char(string="Voxbay Extension")
 
     voxbay_incoming_calls = fields.One2many('voxbay.call.data.record', 'operator_employee_id', string="Incoming Calls", domain=[('call_type','=','incoming')])
     voxbay_incoming_calls_count = fields.Integer(compute="_compute_voxbay_incoming_calls_count")

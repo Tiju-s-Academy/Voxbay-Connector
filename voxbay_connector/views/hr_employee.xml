@@ -34,6 +34,15 @@
             <xpath expr="//field[@name='coach_id']" position="after">
                 <field name="agent_number" />
             </xpath>
+
+            <xpath expr="//group[@name='contact_information']" position="inside">
+                <group string="Voxbay Information">
+                    <field name="voxbay_callerid"/>
+                    <field name="voxbay_uid"/>
+                    <field name="voxbay_pin"/>
+                    <field name="voxbay_extension"/>
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>

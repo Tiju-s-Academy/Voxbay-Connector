@@ -29,6 +29,9 @@
                     </div>
                 </button>
             </xpath>
+            <xpath expr="//field[@name='phone']" position="after">
+                <button name="action_click_to_call" type="object" string="Call" class="oe_highlight"/>
+            </xpath>
         </field>
     </record>
 </odoo>
