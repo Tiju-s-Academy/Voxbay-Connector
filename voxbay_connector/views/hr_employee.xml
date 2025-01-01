@@ -35,7 +35,7 @@
                 <field name="agent_number" />
             </xpath>
 
-            <xpath expr="//group[@name='contact_information']" position="inside">
+            <xpath expr="//sheet" position="inside">
                 <group string="Voxbay Information">
                     <field name="voxbay_callerid"/>
                     <field name="voxbay_uid"/>
