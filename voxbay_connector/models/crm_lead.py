@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 import requests
 
 class CrmLead(models.Model):
@@ -9,7 +10,7 @@ class CrmLead(models.Model):
         self.ensure_one()
         employee = self.env.user.employee_id
         if not employee:
-            raise UserError("No employee record found for the current user.")
+            raise UserError(_("No employee record found for the current user."))
         
         url = "https://pbx.voxbaysolutions.com/api/clicktocall.php"
         params = {
@@ -22,5 +23,5 @@ class CrmLead(models.Model):
         }
         response = requests.get(url, params=params)
         if response.status_code != 200:
-            raise UserError("Failed to initiate call.")
+            raise UserError(_("Failed to initiate call."))
         return True
