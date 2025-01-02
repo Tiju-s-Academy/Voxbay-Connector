@@ -211,26 +211,23 @@ class VoxbayApi(http.Controller):
             _logger.info(f"API Outgoing CDR Push Called with data: {post_data}")
 
             data = {
-                'caller_number': post_data['callerNumber'],
-                'called_number': post_data['calledNumber'],
-                # 'caller_id': post_data['callerId'],
-                'call_uuid': post_data['CallUUID'],
+                'caller_number': post_data.get('callerid'),
+                'called_number': post_data.get('destination'),
+                'agent_number': post_data.get('extension'),
+                'call_uuid': post_data.get('callUUlD'),
                 'call_type': 'outgoing',     
-
-                'agent_number': post_data['AgentNumber'],
-                # 'caller_id': post_data['callerid'],
-                'call_start_time': post_data['callStartTime'],
-                'call_end_time': post_data['callEndTime'],
-                'total_call_duration': post_data['totalCallDuration'],
-                'conversation_duration': post_data['conversationDuration'],
-                'dtmf': post_data['dtmf'],
-                'call_status': post_data['callStatus'],
-                'call_date': post_data['callDate'],
-                'recording_url': post_data['recording_URL'],
+                'call_start_time': post_data.get('callStartTime'),
+                'call_end_time': post_data.get('callEndTime'),
+                'total_call_duration': post_data.get('totalCallDuration'),
+                'conversation_duration': post_data.get('conversationDuration'),
+                'dtmf': post_data.get('dtmf'),
+                'call_status': post_data.get('callStatus'),
+                'call_date': post_data.get('callDate'),
+                'recording_url': post_data.get('recording_URL'),
                 'event_status': 'call_ended',           
             }
 
-            call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid','=',post_data['CallUUID'])])
+            call_record = request.env['voxbay.call.data.record'].sudo().search([('call_uuid', '=', post_data.get('callUUlD'))])
             if call_record:
                 call_record.write(data)   
             else:
