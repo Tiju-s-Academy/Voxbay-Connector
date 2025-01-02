@@ -70,18 +70,23 @@ class VoxbayCallData(models.Model):
 
     # Function to create a new lead from call record or assign new lead to call record
     def create_update_lead(self):
+        def clean_number(number):
+            return number.replace(" ", "").replace("+", "").replace("-", "")
+
         for record in self:
             lead = False
             if record.call_type == 'incoming':
-                cleaned_caller_number = record.caller_number.replace(" ", "")
+                cleaned_caller_number = clean_number(record.caller_number)
                 lead = self.env['crm.lead'].sudo().search([('phone', 'like', f"%{cleaned_caller_number[-7:]}"), ('phone', '!=', False)], limit=1)
                 contact_number = record.caller_number
             elif record.call_type == 'outgoing':
-                cleaned_called_number = record.called_number.replace(" ", "")
+                cleaned_called_number = clean_number(record.called_number)
                 lead = self.env['crm.lead'].sudo().search([('phone', 'like', f"%{cleaned_called_number[-7:]}"), ('phone', '!=', False)], limit=1)
                 contact_number = record.called_number
             if lead:
                 record.lead_id = lead[0].id
+                # Append new call details to the existing lead
+                lead[0].message_post(body=f"New call details: {record.name}")
             else:
                 sales_team = False
                 lead_user = record.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID)
