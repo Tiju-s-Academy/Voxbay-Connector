@@ -73,10 +73,12 @@ class VoxbayCallData(models.Model):
         for record in self:
             lead = False
             if record.call_type == 'incoming':
-                lead = self.env['crm.lead'].sudo().search([('phone', 'like', f"%{record.caller_number[-7:]}"), ('phone', '!=', False)], limit=1)
+                cleaned_caller_number = record.caller_number.replace(" ", "")
+                lead = self.env['crm.lead'].sudo().search([('phone', 'like', f"%{cleaned_caller_number[-7:]}"), ('phone', '!=', False)], limit=1)
                 contact_number = record.caller_number
             elif record.call_type == 'outgoing':
-                lead = self.env['crm.lead'].sudo().search([('phone', 'like', f"%{record.called_number[-7:]}"), ('phone', '!=', False)], limit=1)
+                cleaned_called_number = record.called_number.replace(" ", "")
+                lead = self.env['crm.lead'].sudo().search([('phone', 'like', f"%{cleaned_called_number[-7:]}"), ('phone', '!=', False)], limit=1)
                 contact_number = record.called_number
             if lead:
                 record.lead_id = lead[0].id
