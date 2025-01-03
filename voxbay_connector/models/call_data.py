@@ -71,6 +71,8 @@ class VoxbayCallData(models.Model):
     # Function to create a new lead from call record or assign new lead to call record
     def create_update_lead(self):
         def clean_number(number):
+            if not number:
+                return ""
             return number.replace(" ", "").replace("+", "").replace("-", "")
 
         for record in self:
