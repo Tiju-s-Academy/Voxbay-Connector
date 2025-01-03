@@ -90,31 +90,32 @@ class VoxbayCallData(models.Model):
                 self = self.with_user(lead_user)
                 lead[0].message_post(body=f"New call details: {record.name}")
             else:
-                sales_team = False
-                lead_user = record.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID)
-                self = self.with_user(lead_user)
+                if record.call_type == 'incoming':
+                    sales_team = False
+                    lead_user = record.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID)
+                    self = self.with_user(lead_user)
 
-                lead_data = {
-                    'name': f'[{record.call_type.upper()}] {contact_number}',
-                    'phone': contact_number,
-                    'type': 'lead',
-                    'source_id': 82,
-                    'user_id': lead_user.id
-                }
+                    lead_data = {
+                        'name': f'[{record.call_type.upper()}] {contact_number}',
+                        'phone': contact_number,
+                        'type': 'lead',
+                        'source_id': 82,
+                        'user_id': lead_user.id
+                    }
 
-                if lead_user.id == SUPERUSER_ID:
-                    sales_teams = self.env['crm.team'].sudo().search([])
-                    if sales_teams:
-                        random_choice = random.choice(range(len(sales_teams)))
-                        sales_team = sales_teams[random_choice]
-                else:
-                    sales_team = lead_user.sale_team_id
+                    if lead_user.id == SUPERUSER_ID:
+                        sales_teams = self.env['crm.team'].sudo().search([])
+                        if sales_teams:
+                            random_choice = random.choice(range(len(sales_teams)))
+                            sales_team = sales_teams[random_choice]
+                    else:
+                        sales_team = lead_user.sale_team_id
 
-                if sales_team:
-                    lead_data.update({'team_id': sales_team.id, 'user_id': False})
+                    if sales_team:
+                        lead_data.update({'team_id': sales_team.id, 'user_id': False})
 
-                _logger.error(f'lead_data, {lead_data}')
-                record.lead_id = self.env['crm.lead'].sudo().create(lead_data).id
+                    _logger.error(f'lead_data, {lead_data}')
+                    record.lead_id = self.env['crm.lead'].sudo().create(lead_data).id
 
             # Ensure the sales team is assigned correctly when the call ends and the salesperson is changed
             if record.lead_id and not record.lead_id.team_id:
