@@ -86,6 +86,8 @@ class VoxbayCallData(models.Model):
             if lead:
                 record.lead_id = lead[0].id
                 # Append new call details to the existing lead
+                lead_user = record.operator_employee_id.user_id or self.sudo().browse(SUPERUSER_ID)
+                self = self.with_user(lead_user)
                 lead[0].message_post(body=f"New call details: {record.name}")
             else:
                 sales_team = False
