@@ -46,7 +46,7 @@ class VoxbayApi(http.Controller):
             _logger.info(f"API Incoming Answered Called with data: {post_data}")
 
             data =  {
-                    'called_number': post_data['calledNumber'],
+                    'called_number': post_data.get('calledNumber', ''),
                     'caller_number': post_data['callerNumber'],
                     'call_uuid': post_data['CallUUID'],
                     'call_type': 'incoming',
