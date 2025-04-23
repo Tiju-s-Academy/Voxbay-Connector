@@ -4,8 +4,13 @@ import logging
 import json
 import traceback
 _logger = logging.getLogger("TelinfyDebug")
-SOURCE_ID_WHATSAPP = 81
 import random
+
+def get_whatsapp_source_id():
+    source = request.env['utm.source'].sudo().search([('name', '=', 'WhatsApp API')], limit=1)
+    if not source:
+        source = request.env['utm.source'].sudo().create({'name': 'WhatsApp API'})
+    return source.id
 
 class TelinfyApi(http.Controller):
 
@@ -39,7 +44,7 @@ class TelinfyApi(http.Controller):
                         'team_id': sales_team.id,
                         'description': f"<p>{message['text']['body']}</p>",
                         'type': 'lead',
-                        'source_id': SOURCE_ID_WHATSAPP,
+                        'source_id': get_whatsapp_source_id(),
                         })
                         _logger.info(f'Lead {lead_name}, {from_number} created successfully!')
                     # Add message to chatter
