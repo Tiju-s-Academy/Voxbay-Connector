@@ -28,6 +28,9 @@ class TelinfyApi(http.Controller):
                     lead_name = post_data.get('contacts')[0]['profile']['name']
                     lead = request.env['crm.lead'].sudo().search([('phone','like',from_number), ('phone','!=',False)], limit=1)
                     if lead:
+                        lead.has_unread_whatsapp = True
+                        if lead.user_id:
+                            self._notify_salesperson(lead, message['text']['body'])
                         _logger.info(f'Lead already exists for this whatsapp contact {lead_name}, {from_number}.')
                     else:
                         sales_team = False
@@ -54,3 +57,22 @@ class TelinfyApi(http.Controller):
                         lead.message_post(body=f"WhatsApp Message: {message}")
                     lead.message_post(body=f"WhatsApp Message: {message}")
         return json.dumps({'status': 'success',})
+
+    def _notify_salesperson(self, lead, message):
+        notification = {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': f'New WhatsApp Message on {lead.name}',
+                'message': message[:100] + '...' if len(message) > 100 else message,
+                'type': 'info',
+                'sticky': True,
+                'next': {
+                    'type': 'ir.actions.act_window',
+                    'res_model': 'crm.lead',
+                    'res_id': lead.id,
+                    'views': [(False, 'form')],
+                }
+            }
+        }
+        lead.user_id.notify_info(**notification['params'])
